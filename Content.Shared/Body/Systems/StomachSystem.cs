@@ -90,6 +90,14 @@ namespace Content.Shared.Body.Systems
                     stomach.ReagentDeltas.Remove(item);
                 }
 
+                foreach (var reagent in stomachSolution.Contents)
+                {
+                    if (stomach.ReagentDeltas.Exists(delta => delta.ReagentQuantity.Reagent == reagent.Reagent))
+                        continue;
+
+                    stomach.ReagentDeltas.Add(new StomachComponent.ReagentDelta(reagent));
+                }
+
                 _solutionContainerSystem.UpdateChemicals(stomach.Solution.Value);
 
                 // Transfer everything to the body solution!
